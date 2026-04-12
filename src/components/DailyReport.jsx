@@ -86,25 +86,24 @@ function generateReport(dayData) {
   lines.push(date)
   lines.push('')
 
-  // SOP progress
-  const sopOrder = ['sop1', 'sop2', 'sop3']
-  for (const key of sopOrder) {
-    const sop = dayData.tasks[key]
+  // Section progress
+  for (const [key, sop] of Object.entries(dayData.tasks)) {
+    if (sop.simple) continue
     const done = sop.steps.filter(s => s.done).length
     const total = sop.steps.length
-    const statusIcon = done === total ? 'DONE' : done > 0 ? 'IN PROGRESS' : 'NOT STARTED'
+    const statusIcon = total === 0 ? 'N/A' : done === total ? 'DONE' : done > 0 ? 'IN PROGRESS' : 'NOT STARTED'
 
     lines.push(`--- ${sop.title} ---`)
     lines.push(`Status: ${statusIcon} (${done}/${total} steps)`)
 
-    if (sop.notes.trim()) {
+    if (sop.notes && sop.notes.trim()) {
       lines.push(`Notes: ${sop.notes.trim()}`)
     }
     lines.push('')
   }
 
-  // Items worked on
-  if (dayData.items.length > 0) {
+  // Items worked on (if any)
+  if (dayData.items && dayData.items.length > 0) {
     lines.push(`--- ITEMS WORKED ON ---`)
     for (const item of dayData.items) {
       const status = STATUS_LABELS[item.status] || item.status
@@ -119,16 +118,15 @@ function generateReport(dayData) {
       }
     }
     lines.push('')
-  }
 
-  // Blocked items
-  const blocked = dayData.items.filter(i => i.status === 'blocked')
-  if (blocked.length > 0) {
-    lines.push(`--- BLOCKED / ISSUES ---`)
-    for (const item of blocked) {
-      lines.push(`- ${item.name}: ${item.note || 'No details provided'}`)
+    const blocked = dayData.items.filter(i => i.status === 'blocked')
+    if (blocked.length > 0) {
+      lines.push(`--- BLOCKED / ISSUES ---`)
+      for (const item of blocked) {
+        lines.push(`- ${item.name}: ${item.note || 'No details provided'}`)
+      }
+      lines.push('')
     }
-    lines.push('')
   }
 
   // End of day notes
