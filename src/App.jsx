@@ -193,7 +193,7 @@ function createAsherDay() {
           { id: 'a-g2', text: 'Answer any questions she flagged', done: false,
             where: { label: 'WhatsApp', url: 'https://web.whatsapp.com' } },
           { id: 'a-g3', text: 'Verify ads she ran are actually live', done: false,
-            where: { label: 'Influencer Spreadsheet (Posts)', url: 'https://docs.google.com/spreadsheets/d/1-cep-71yHRc6XxdEcq9vesl3KJLUjNaSqZF3eQB7GUA/edit?gid=82550399#gid=82550399' } },
+            where: { label: 'Finished Ad Spreadsheet', url: 'https://docs.google.com/spreadsheets/d/1cvpupZRZUG57gfN6BoZGkhE2VBq83RDaYEoUazvatOA/edit?gid=9406102#gid=9406102' } },
           { id: 'a-g4', text: 'If she flagged blocked items — help unblock (Meta errors, permissions, missing spark codes)', done: false },
         ],
         status: 'not-started',
