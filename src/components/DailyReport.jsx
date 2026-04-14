@@ -143,24 +143,23 @@ function generateReport(dayData) {
   }
 
   // End of day notes
-  if (dayData.notes.trim()) {
+  if (dayData.notes && dayData.notes.trim()) {
     lines.push(`--- END OF DAY NOTES ---`)
     lines.push(dayData.notes.trim())
     lines.push('')
   }
 
   // Summary stats
-  const allSteps = Object.values(dayData.tasks).flatMap(sop => sop.steps)
+  const allSteps = Object.values(dayData.tasks).flatMap(sop => sop.steps || [])
   const totalDone = allSteps.filter(s => s.done).length
   const totalSteps = allSteps.length
-  const itemsDone = dayData.items.filter(i => i.status !== 'blocked' && i.status !== 'skipped').length
-  const itemsBlocked = blocked.length
 
   lines.push(`--- SUMMARY ---`)
   lines.push(`Checklist: ${totalDone}/${totalSteps} steps completed`)
-  lines.push(`Items processed: ${itemsDone}`)
-  if (itemsBlocked > 0) {
-    lines.push(`Items blocked: ${itemsBlocked}`)
+  if (totalMinutes > 0) {
+    const hrs = Math.floor(totalMinutes / 60)
+    const mins = totalMinutes % 60
+    lines.push(`Total time: ${hrs > 0 ? `${hrs}h ` : ''}${mins}m`)
   }
 
   return lines.join('\n')
