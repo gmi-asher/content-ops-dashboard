@@ -95,10 +95,23 @@ function generateReport(dayData) {
 
     lines.push(`--- ${sop.title} ---`)
     lines.push(`Status: ${statusIcon} (${done}/${total} steps)`)
-
+    if (sop.minutes) {
+      lines.push(`Time: ${sop.minutes} min`)
+    }
     if (sop.notes && sop.notes.trim()) {
       lines.push(`Notes: ${sop.notes.trim()}`)
     }
+    lines.push('')
+  }
+
+  // Total time
+  const totalMinutes = Object.values(dayData.tasks).reduce((sum, sop) => {
+    return sum + (parseInt(sop.minutes) || 0)
+  }, 0)
+  if (totalMinutes > 0) {
+    const hrs = Math.floor(totalMinutes / 60)
+    const mins = totalMinutes % 60
+    lines.push(`TOTAL TIME: ${hrs > 0 ? `${hrs}h ` : ''}${mins}m`)
     lines.push('')
   }
 

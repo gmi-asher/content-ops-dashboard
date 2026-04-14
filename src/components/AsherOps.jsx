@@ -13,7 +13,7 @@ const STATUS_LABELS = {
   'done': 'Complete',
 }
 
-export default function AsherOps({ dayData, onToggleStep, onUpdateSOPNotes, onUpdateNotes }) {
+export default function AsherOps({ dayData, onToggleStep, onUpdateSOPNotes, onUpdateSOPMinutes, onUpdateNotes }) {
   const [expandedSection, setExpandedSection] = useState(null)
 
   const toggle = (key) => {
@@ -82,15 +82,28 @@ export default function AsherOps({ dayData, onToggleStep, onUpdateSOPNotes, onUp
                 ))}
               </div>
 
-              {/* Notes */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-                <textarea
-                  value={section.notes}
-                  onChange={(e) => onUpdateSOPNotes(key, e.target.value)}
-                  placeholder="Notes for this section..."
-                  className="w-full text-sm border border-gray-200 rounded-lg p-3 resize-none h-20 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+              {/* Time + Notes */}
+              <div className="flex gap-3">
+                <div className="w-28 shrink-0">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Time (min)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={section.minutes || ''}
+                    onChange={(e) => onUpdateSOPMinutes(key, e.target.value)}
+                    placeholder="0"
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                  <textarea
+                    value={section.notes}
+                    onChange={(e) => onUpdateSOPNotes(key, e.target.value)}
+                    placeholder="Notes for this section..."
+                    className="w-full text-sm border border-gray-200 rounded-lg p-3 resize-none h-20 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
               </div>
             </div>
           )}

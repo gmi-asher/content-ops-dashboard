@@ -332,6 +332,16 @@ export default function App() {
     }))
   }
 
+  const updateSOPMinutes = (sopKey, minutes) => {
+    setDayData(prev => ({
+      ...prev,
+      tasks: {
+        ...prev.tasks,
+        [sopKey]: { ...prev.tasks[sopKey], minutes },
+      },
+    }))
+  }
+
   const addItem = (item) => {
     setDayData(prev => ({
       ...prev,
@@ -415,6 +425,7 @@ export default function App() {
             dayData={dayData}
             onToggleStep={toggleStep}
             onUpdateSOPNotes={updateSOPNotes}
+            onUpdateSOPMinutes={updateSOPMinutes}
             onUpdateNotes={updateNotes}
             isMetricoolDay={IS_METRICOOL_DAY}
           />
@@ -423,6 +434,7 @@ export default function App() {
             dayData={dayData}
             onToggleStep={toggleStep}
             onUpdateSOPNotes={updateSOPNotes}
+            onUpdateSOPMinutes={updateSOPMinutes}
             onUpdateNotes={updateNotes}
           />
         )}
